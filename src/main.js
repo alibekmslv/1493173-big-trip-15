@@ -1,21 +1,15 @@
-import {
-  createTripTabsTemplate,
-  createTripFiltersTemplate,
-  createTripInfoTemplate,
-  createTripInfoMainTemplate,
-  createTripInfoCostTemplate,
-  createTripSortTemplate,
-  createTripEventsListTemplate,
-  createTripEventsItemTemplate,
-  createEditEventTemplate,
-  createAddEventTemplate
-} from './view';
-
-const TRIP_EVENTS_COUNT = 3;
-
-const render = (container, template, place) => {
-  container.insertAdjacentHTML(place, template);
-};
+import { createTripTabsTemplate } from './view/trip-tabs.js';
+import { createTripFiltersTemplate } from './view/trip-filters.js';
+import { createTripInfoTemplate } from './view/trip-info.js';
+import { createTripInfoMainTemplate } from './view/trip-info-main.js';
+import { createTripInfoCostTemplate } from './view/trip-info-cost.js';
+import { createTripSortTemplate } from './view/trip-sort.js';
+import { createTripEventsListTemplate } from './view/trip-events-list.js';
+import { createTripEventsItemTemplate } from './view/trip-events-item.js';
+import { createEditEventTemplate } from './view/edit-event.js';
+import { createAddEventTemplate } from './view/add-event.js';
+import { TRIP_EVENTS_COUNT } from './settings.js';
+import { render } from './utils/render.js';
 
 const tripMainElement = document.querySelector('.trip-main');
 const tripControlsNavigationElement = tripMainElement.querySelector('.trip-controls__navigation');
