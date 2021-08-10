@@ -1,1 +1,1 @@
-export const TRIP_EVENTS_COUNT = 3;
+export const TRIP_EVENTS_COUNT = 20;

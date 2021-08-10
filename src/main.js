@@ -10,6 +10,9 @@ import { createEditEventTemplate } from './view/edit-event.js';
 import { createAddEventTemplate } from './view/add-event.js';
 import { TRIP_EVENTS_COUNT } from './settings.js';
 import { render } from './utils/render.js';
+import { generateTripEvent } from './mock/points.js';
+
+const tripEvents = new Array(TRIP_EVENTS_COUNT).fill().map(generateTripEvent);
 
 const tripMainElement = document.querySelector('.trip-main');
 const tripControlsNavigationElement = tripMainElement.querySelector('.trip-controls__navigation');
@@ -21,7 +24,7 @@ render(tripMainElement, createTripInfoTemplate(), 'afterbegin');
 
 const tripInfoElement = tripMainElement.querySelector('.trip-info');
 
-render(tripInfoElement, createTripInfoMainTemplate(), 'afterbegin');
+render(tripInfoElement, createTripInfoMainTemplate(tripEvents), 'afterbegin');
 render(tripInfoElement, createTripInfoCostTemplate(), 'beforeend');
 
 const tripEventsElement = document.querySelector('.trip-events');
@@ -31,9 +34,9 @@ render(tripEventsElement, createTripEventsListTemplate(), 'beforeend');
 
 const tripEventsListElement = tripEventsElement.querySelector('.trip-events__list');
 
-for (let i = 0; i < TRIP_EVENTS_COUNT; i++) {
-  render(tripEventsListElement, createTripEventsItemTemplate(), 'beforeend');
+for (let i = 1; i < TRIP_EVENTS_COUNT; i++) {
+  render(tripEventsListElement, createTripEventsItemTemplate(tripEvents[i]), 'beforeend');
 }
 
-render(tripEventsListElement, createEditEventTemplate(), 'afterbegin');
+render(tripEventsListElement, createEditEventTemplate(tripEvents[0]), 'afterbegin');
 render(tripEventsListElement, createAddEventTemplate(), 'afterbegin');
