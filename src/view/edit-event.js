@@ -46,7 +46,7 @@ const createDestinationListTemplate = () => (`
   </datalist>`);
 
 export const createEditEventTemplate = (tripEvent) => {
-  const { id, type, date_from: dateFrom, date_to: dateTo, destination, base_price: basePrice, offers } = tripEvent;
+  const { id, type, dateFrom, dateTo, destination, basePrice, offers } = tripEvent;
 
   const eventTypeItemTemplate = createEventTypeItemTemplate(type);
   const eventOffersTemplate = createEventOffersTemplate(type, offers);

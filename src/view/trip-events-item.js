@@ -13,7 +13,7 @@ const createEventSelectedOffersTemplate = (selectedOffers) => `
     </ul>`;
 
 export const createTripEventsItemTemplate = (tripEvent) => {
-  const { id, type, date_from: dateFrom, date_to: dateTo, destination, base_price: basePrice, is_favorite: isFavorite, offers } = tripEvent;
+  const { id, type, dateFrom, dateTo, destination, basePrice, isFavorite, offers } = tripEvent;
 
   const eventSelectedOffersTemplate = isOffers(offers) ? createEventSelectedOffersTemplate(offers) : '';
 
