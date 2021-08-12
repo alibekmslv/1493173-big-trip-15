@@ -1,4 +1,5 @@
 import { getHumanizedDate, getTime, getTripDuration, isOffers } from '../utils/points.js';
+import { createElement } from '../utils/render.js';
 
 const createEventSelectedOffersTemplate = (selectedOffers) => `
     <h4 class="visually-hidden">Offers:</h4>
@@ -12,7 +13,7 @@ const createEventSelectedOffersTemplate = (selectedOffers) => `
       `).join('')}
     </ul>`;
 
-export const createTripEventsItemTemplate = (tripEvent) => {
+const createTripEventsItemTemplate = (tripEvent) => {
   const { id, type, dateFrom, dateTo, destination, basePrice, isFavorite, offers } = tripEvent;
 
   const eventSelectedOffersTemplate = isOffers(offers) ? createEventSelectedOffersTemplate(offers) : '';
@@ -48,3 +49,26 @@ export const createTripEventsItemTemplate = (tripEvent) => {
     </div>
   </li>`;
 };
+
+export default class TripEventsItem {
+  constructor(tripEvent) {
+    this._element = null;
+    this._tripEvent = tripEvent;
+  }
+
+  getTemplate() {
+    return createTripEventsItemTemplate(this._tripEvent);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}

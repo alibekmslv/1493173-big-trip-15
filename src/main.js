@@ -1,15 +1,15 @@
-import { createTripTabsTemplate } from './view/trip-tabs.js';
-import { createTripFiltersTemplate } from './view/trip-filters.js';
-import { createTripInfoTemplate } from './view/trip-info.js';
-import { createTripInfoMainTemplate } from './view/trip-info-main.js';
-import { createTripInfoCostTemplate } from './view/trip-info-cost.js';
-import { createTripSortTemplate } from './view/trip-sort.js';
-import { createTripEventsListTemplate } from './view/trip-events-list.js';
-import { createTripEventsItemTemplate } from './view/trip-events-item.js';
-import { createEditEventTemplate } from './view/edit-event.js';
-import { createAddEventTemplate } from './view/add-event.js';
+import TripTabsView from './view/trip-tabs.js';
+import TripFiltersView from './view/trip-filters.js';
+import TripInfoView from './view/trip-info.js';
+import TripInfoMainView from './view/trip-info-main.js';
+import TripInfoCostView from './view/trip-info-cost.js';
+import TripSortView from './view/trip-sort.js';
+import TripEventsListView from './view/trip-events-list.js';
+import TripEventsItemView from './view/trip-events-item.js';
+import EditEventView from './view/edit-event.js';
+import AddEventView from './view/add-event.js';
 import { TRIP_EVENTS_COUNT } from './settings.js';
-import { render } from './utils/render.js';
+import { render, RenderPosition } from './utils/render.js';
 import { generateTripEvent } from './mock/points.js';
 
 const tripEvents = new Array(TRIP_EVENTS_COUNT).fill().map(generateTripEvent);
@@ -18,25 +18,26 @@ const tripMainElement = document.querySelector('.trip-main');
 const tripControlsNavigationElement = tripMainElement.querySelector('.trip-controls__navigation');
 const tripControlsFiltersElement = tripMainElement.querySelector('.trip-controls__filters');
 
-render(tripControlsNavigationElement, createTripTabsTemplate(), 'beforeend');
-render(tripControlsFiltersElement, createTripFiltersTemplate(), 'beforeend');
-render(tripMainElement, createTripInfoTemplate(), 'afterbegin');
+render(tripControlsNavigationElement, new TripTabsView().getElement(), RenderPosition.BEFOREEND);
+render(tripControlsFiltersElement, new TripFiltersView().getElement(), RenderPosition.BEFOREEND);
 
-const tripInfoElement = tripMainElement.querySelector('.trip-info');
+const tripInfoViewComponent = new TripInfoView();
+render(tripMainElement, tripInfoViewComponent.getElement(), RenderPosition.AFTERBEGIN);
 
-render(tripInfoElement, createTripInfoMainTemplate(tripEvents), 'afterbegin');
-render(tripInfoElement, createTripInfoCostTemplate(), 'beforeend');
+const tripInfoMainComponent = new TripInfoMainView(tripEvents);
+render(tripInfoViewComponent.getElement(), tripInfoMainComponent.getElement(), RenderPosition.AFTERBEGIN);
+render(tripInfoViewComponent.getElement(), new TripInfoCostView().getElement(), RenderPosition.BEFOREEND);
 
 const tripEventsElement = document.querySelector('.trip-events');
 
-render(tripEventsElement, createTripSortTemplate(), 'afterbegin');
-render(tripEventsElement, createTripEventsListTemplate(), 'beforeend');
+render(tripEventsElement, new TripSortView().getElement(), RenderPosition.BEFOREEND);
 
-const tripEventsListElement = tripEventsElement.querySelector('.trip-events__list');
+const tripEventsListComponent = new TripEventsListView();
+render(tripEventsElement, tripEventsListComponent.getElement(), RenderPosition.BEFOREEND);
 
 for (let i = 1; i < TRIP_EVENTS_COUNT; i++) {
-  render(tripEventsListElement, createTripEventsItemTemplate(tripEvents[i]), 'beforeend');
+  render(tripEventsListComponent.getElement(), new TripEventsItemView(tripEvents[i]).getElement(), RenderPosition.BEFOREEND);
 }
 
-render(tripEventsListElement, createEditEventTemplate(tripEvents[0]), 'afterbegin');
-render(tripEventsListElement, createAddEventTemplate(), 'afterbegin');
+render(tripEventsListComponent.getElement(), new EditEventView(tripEvents[0]).getElement(), RenderPosition.AFTERBEGIN);
+render(tripEventsListComponent.getElement(), new AddEventView().getElement(), RenderPosition.AFTERBEGIN);
