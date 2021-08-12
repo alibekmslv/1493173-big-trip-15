@@ -8,6 +8,7 @@ import TripEventsListView from './view/trip-events-list.js';
 import TripEventsItemView from './view/trip-events-item.js';
 import EditEventView from './view/edit-event.js';
 import AddEventView from './view/add-event.js';
+import ListEmptyView from './view/list-empty.js';
 import { TRIP_EVENTS_COUNT } from './settings.js';
 import { render, RenderPosition } from './utils/render.js';
 import { generateTripEvent } from './mock/points.js';
@@ -69,13 +70,17 @@ render(tripInfoViewComponent.getElement(), new TripInfoCostView().getElement(), 
 
 const tripEventsElement = document.querySelector('.trip-events');
 
-render(tripEventsElement, new TripSortView().getElement(), RenderPosition.BEFOREEND);
 
-const tripEventsListComponent = new TripEventsListView();
-render(tripEventsElement, tripEventsListComponent.getElement(), RenderPosition.BEFOREEND);
+if (tripEvents.length === 0) {
+  render(tripEventsElement, new ListEmptyView().getElement(), RenderPosition.BEFOREEND);
+} else {
+  render(tripEventsElement, new TripSortView().getElement(), RenderPosition.BEFOREEND);
+  const tripEventsListComponent = new TripEventsListView();
+  render(tripEventsElement, tripEventsListComponent.getElement(), RenderPosition.BEFOREEND);
 
-for (let i = 1; i < TRIP_EVENTS_COUNT; i++) {
-  renderEvent(tripEventsListComponent.getElement(), tripEvents[i]);
+  for (let i = 1; i < TRIP_EVENTS_COUNT; i++) {
+    renderEvent(tripEventsListComponent.getElement(), tripEvents[i]);
+  }
+
+  render(tripEventsListComponent.getElement(), new AddEventView().getElement(), RenderPosition.AFTERBEGIN);
 }
-
-render(tripEventsListComponent.getElement(), new AddEventView().getElement(), RenderPosition.AFTERBEGIN);
