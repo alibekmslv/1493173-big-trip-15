@@ -2,6 +2,7 @@ import { getHumanizedDate, isDescription, isEventTypeChecked, isEventOfferChecke
 import { getOffersByType } from '../utils/offers.js';
 import { allDestinations } from '../mock/destinations.js';
 import { allOffers } from '../mock/offers.js';
+import { createElement } from '../utils/render.js';
 
 const createEventTypeItemTemplate = (eventType) => allOffers.map(({type}) => (`
   <div class="event__type-item">
@@ -45,8 +46,8 @@ const createDestinationListTemplate = () => (`
     ${allDestinations.map((item) => `<option value="${item.name}"></option>`).join('')}
   </datalist>`);
 
-export const createEditEventTemplate = (tripEvent) => {
-  const { id, type, date_from: dateFrom, date_to: dateTo, destination, base_price: basePrice, offers } = tripEvent;
+const createEditEventTemplate = (tripEvent) => {
+  const { id, type, dateFrom, dateTo, destination, basePrice, offers } = tripEvent;
 
   const eventTypeItemTemplate = createEventTypeItemTemplate(type);
   const eventOffersTemplate = createEventOffersTemplate(type, offers);
@@ -108,3 +109,26 @@ export const createEditEventTemplate = (tripEvent) => {
     </form>
   </li>`;
 };
+
+export default class EditEvent {
+  constructor(tripEvent) {
+    this._element = null;
+    this._tripEvent = tripEvent;
+  }
+
+  getTemplate() {
+    return createEditEventTemplate(this._tripEvent);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}

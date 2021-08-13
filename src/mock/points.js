@@ -103,13 +103,13 @@ export const generateTripEvent = () => {
   const offers = generateOffers(type);
 
   return  {
-    'id': generateId(),
-    'type': type,
-    'date_from': dateFrom,
-    'date_to': dateTo,
-    'destination': generateDestination(),
-    'base_price': generatePrice(),
-    'is_favorite': generateFavorite(),
-    'offers': offers,
+    id: generateId(),
+    type: type,
+    dateFrom: dateFrom,
+    dateTo: dateTo,
+    destination: generateDestination(),
+    basePrice: generatePrice(),
+    isFavorite: generateFavorite(),
+    offers: offers,
   };
 };
