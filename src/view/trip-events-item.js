@@ -54,9 +54,20 @@ export default class TripEventsItem extends Abstract {
   constructor(tripEvent) {
     super();
     this._tripEvent = tripEvent;
+    this._expandButtonClickHandler = this._expandButtonClickHandler.bind(this);
   }
 
   getTemplate() {
     return createTripEventsItemTemplate(this._tripEvent);
+  }
+
+  _expandButtonClickHandler(evt) {
+    evt.preventDefault();
+    this._callback.expandButtonClick();
+  }
+
+  setExpandButtonClickHandler(callback) {
+    this._callback.expandButtonClick = callback;
+    this.getElement().querySelector('.event__rollup-btn').addEventListener('click', this._expandButtonClickHandler);
   }
 }

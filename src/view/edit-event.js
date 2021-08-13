@@ -114,9 +114,31 @@ export default class EditEvent extends AbstractView {
   constructor(tripEvent) {
     super();
     this._tripEvent = tripEvent;
+    this._formSubmitHandler = this._formSubmitHandler.bind(this);
+    this._collapseButtonClickHandler = this._collapseButtonClickHandler.bind(this);
   }
 
   getTemplate() {
     return createEditEventTemplate(this._tripEvent);
+  }
+
+  _formSubmitHandler(evt) {
+    evt.preventDefault();
+    this._callback.formSubmit();
+  }
+
+  setFormSubmitHandler(callback) {
+    this._callback.formSubmit = callback;
+    this.getElement().addEventListener('submit', this._formSubmitHandler);
+  }
+
+  _collapseButtonClickHandler(evt) {
+    evt.preventDefault();
+    this._callback.collapseButtonClick();
+  }
+
+  setCollapseButtonClickHandler(callback) {
+    this._callback.collapseButtonClick = callback;
+    this.getElement().addEventListener('click', this._collapseButtonClickHandler);
   }
 }

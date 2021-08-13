@@ -46,16 +46,13 @@ const renderEvent = (tripEventsListElement, tripEvent) => {
     document.removeEventListener('keydown', onEscKeydown);
   };
 
-  const onEditEventFormSubmit = () => closeEditEvent();
-  const onEditEventButtonClick = () => closeEditEvent();
-
-  tripEventItemElement.querySelector('.event__rollup-btn').addEventListener('click', () => {
+  tripEventItemComponent.setExpandButtonClickHandler(() => {
     replaceEventToForm();
     document.addEventListener('keydown', onEscKeydown);
   });
 
-  editEventElement.querySelector('form').addEventListener('submit', onEditEventFormSubmit);
-  editEventElement.querySelector('.event__rollup-btn').addEventListener('click', onEditEventButtonClick);
+  editEventComponent.setFormSubmitHandler(closeEditEvent);
+  editEventComponent.setCollapseButtonClickHandler(closeEditEvent);
 
   render(tripEventsListElement, tripEventItemElement, RenderPosition.BEFOREEND);
 };
