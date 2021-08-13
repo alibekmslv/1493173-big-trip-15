@@ -1,5 +1,5 @@
 import { getHumanizedDate, getTime, getTripDuration, isOffers } from '../utils/points.js';
-import { createElement } from '../utils/render.js';
+import Abstract from './abstract.js';
 
 const createEventSelectedOffersTemplate = (selectedOffers) => `
     <h4 class="visually-hidden">Offers:</h4>
@@ -50,25 +50,13 @@ const createTripEventsItemTemplate = (tripEvent) => {
   </li>`;
 };
 
-export default class TripEventsItem {
+export default class TripEventsItem extends Abstract {
   constructor(tripEvent) {
-    this._element = null;
+    super();
     this._tripEvent = tripEvent;
   }
 
   getTemplate() {
     return createTripEventsItemTemplate(this._tripEvent);
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }

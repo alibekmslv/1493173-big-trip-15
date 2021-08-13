@@ -2,7 +2,7 @@ import { getHumanizedDate, isDescription, isEventTypeChecked, isEventOfferChecke
 import { getOffersByType } from '../utils/offers.js';
 import { allDestinations } from '../mock/destinations.js';
 import { allOffers } from '../mock/offers.js';
-import { createElement } from '../utils/render.js';
+import AbstractView from './abstract.js';
 
 const createEventTypeItemTemplate = (eventType) => allOffers.map(({type}) => (`
   <div class="event__type-item">
@@ -110,25 +110,13 @@ const createEditEventTemplate = (tripEvent) => {
   </li>`;
 };
 
-export default class EditEvent {
+export default class EditEvent extends AbstractView {
   constructor(tripEvent) {
-    this._element = null;
+    super();
     this._tripEvent = tripEvent;
   }
 
   getTemplate() {
     return createEditEventTemplate(this._tripEvent);
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }
