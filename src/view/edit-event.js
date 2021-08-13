@@ -129,7 +129,7 @@ export default class EditEvent extends AbstractView {
 
   setFormSubmitHandler(callback) {
     this._callback.formSubmit = callback;
-    this.getElement().addEventListener('submit', this._formSubmitHandler);
+    this.getElement().querySelector('form').addEventListener('submit', this._formSubmitHandler);
   }
 
   _collapseButtonClickHandler(evt) {
@@ -139,6 +139,6 @@ export default class EditEvent extends AbstractView {
 
   setCollapseButtonClickHandler(callback) {
     this._callback.collapseButtonClick = callback;
-    this.getElement().addEventListener('click', this._collapseButtonClickHandler);
+    this.getElement().querySelector('.event__rollup-btn').addEventListener('click', this._collapseButtonClickHandler);
   }
 }
