@@ -2,7 +2,7 @@ import { getHumanizedDate, isDescription, isEventTypeChecked, isEventOfferChecke
 import { getOffersByType } from '../utils/offers.js';
 import { allDestinations } from '../mock/destinations.js';
 import { allOffers } from '../mock/offers.js';
-import { createElement } from '../utils/render.js';
+import AbstractView from './abstract.js';
 
 const createEventTypeItemTemplate = (eventType) => allOffers.map(({type}) => (`
   <div class="event__type-item">
@@ -110,25 +110,35 @@ const createEditEventTemplate = (tripEvent) => {
   </li>`;
 };
 
-export default class EditEvent {
+export default class EditEvent extends AbstractView {
   constructor(tripEvent) {
-    this._element = null;
+    super();
     this._tripEvent = tripEvent;
+    this._formSubmitHandler = this._formSubmitHandler.bind(this);
+    this._collapseButtonClickHandler = this._collapseButtonClickHandler.bind(this);
   }
 
   getTemplate() {
     return createEditEventTemplate(this._tripEvent);
   }
 
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
+  _formSubmitHandler(evt) {
+    evt.preventDefault();
+    this._callback.formSubmit();
   }
 
-  removeElement() {
-    this._element = null;
+  setFormSubmitHandler(callback) {
+    this._callback.formSubmit = callback;
+    this.getElement().querySelector('form').addEventListener('submit', this._formSubmitHandler);
+  }
+
+  _collapseButtonClickHandler(evt) {
+    evt.preventDefault();
+    this._callback.collapseButtonClick();
+  }
+
+  setCollapseButtonClickHandler(callback) {
+    this._callback.collapseButtonClick = callback;
+    this.getElement().querySelector('.event__rollup-btn').addEventListener('click', this._collapseButtonClickHandler);
   }
 }

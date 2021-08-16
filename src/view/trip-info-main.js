@@ -1,5 +1,5 @@
-import { createElement } from '../utils/render.js';
 import { getTripRouteName } from '../utils/trip.js';
+import AbstractView from './abstract.js';
 
 export const createTripInfoMainTemplate = (tripEvents) => (
   `<div class="trip-info__main">
@@ -9,25 +9,13 @@ export const createTripInfoMainTemplate = (tripEvents) => (
   </div>`
 );
 
-export default class TripInfoMain {
+export default class TripInfoMain extends AbstractView {
   constructor(tripEvents) {
-    this._element = null;
+    super();
     this._tripEvents = tripEvents;
   }
 
   getTemplate() {
     return createTripInfoMainTemplate(this._tripEvents);
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }
